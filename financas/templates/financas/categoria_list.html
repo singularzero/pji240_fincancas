@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Lista de Categorias
+{% endblock page_title %}
+
+{% block content %}
+    <h1 align="center">Lista de Categorias</h1>             
+    {% if categoria_list %}
+    <div class="container-fluid flex border border-dark p-3 my-3">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">idCategoria</th>
+                  <th scope="col">Categoria</th>                
+                  <th scope="col">Ações</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for categoria in categoria_list %}
+                    <tr>
+                        <th scope="row">{{ categoria.pk }}</th>
+                        <td>{{ categoria.nome }}</td>                        
+                        <td>                                        
+                            <a href="{% url 'categoria_update' pk=categoria.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                            <a href="{% url 'categoria_delete' pk=categoria.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                            <a href="{% url 'categoria_create' %}" class="btn btn-warning btn-sm">Nova Categoria</a>
+                        </td>
+                    </tr>   
+              {% endfor %}
+          </tbody>
+      </table> 
+    </div>
+    {% else %} 
+      <p>Não ha categorias cadastradas!</p>
+    {% endif %}
+
+    <a href="{% url 'categoria_create' %}" class="btn btn-warning btn-sm">Nova Categoria</a>
+{% endblock content %}

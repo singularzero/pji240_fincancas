@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Lista de Gastos
+{% endblock page_title %}
+
+{% block content %}
+    <h1 align="center">Lista de Gastos</h1>             
+    {% if gastos_list.exists %}
+    <div class="container-fluid flex border border-dark p-3 my-3">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">idGastos</th>
+                  <th scope="col">Categoria</th>    
+                  <th scope="col">Retirado_em</th>  
+                  <th scope="col">Valor</th>              
+                  <th scope="col">Ações</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for gasto in gastos_list %}
+                    <tr>
+                        <th scope="row">{{ gasto.pk }}</th>
+                        <td>{{ gasto.categoria }}</td>
+                        <td>{{ gasto.retirado_em }}</td> 
+                        <td>{{ gasto.valor }}</td>  
+                        <td>                                        
+                            <a href="{% url 'gastos_update' pk=gasto.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                            <a href="{% url 'gastos_delete' pk=gasto.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                            <a href="{% url 'gastos_create' %}" class="btn btn-warning btn-sm">Novo Gasto</a>
+                        </td>                                                
+                    </tr>   
+            {% endfor %}
+          </tbody>
+      </table> 
+    </div>
+    {% else %} 
+      <p>Não ha gastos cadastrados!</p>
+    {% endif %}
+
+    <a href="{% url 'gastos_create' %}" class="btn btn-warning btn-sm">Novo Gasto</a>    
+{% endblock content %}

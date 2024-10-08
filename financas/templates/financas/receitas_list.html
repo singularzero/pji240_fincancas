@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Lista de Receitas
+{% endblock page_title %}
+
+{% block content %}
+    <h1 align="center">Lista de Receitas</h1>             
+    {% if receitas_list.exists %}
+    <div class="container-fluid flex border border-dark p-3 my-3">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">idReceitas</th>
+                  <th scope="col">Categoria</th>    
+                  <th scope="col">Adicionado_em</th>  
+                  <th scope="col">Valor</th>              
+                  <th scope="col">Ações</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for receita in receitas_list %}
+                    <tr>
+                        <th scope="row">{{ receita.pk }}</th>
+                        <td>{{ receita.categoria }}</td>                                         
+                        <td>{{ receita.adicionado_em }}</td> 
+                        <td>{{ receita.valor }}</td>  
+                        <td>                                        
+                            <a href="{% url 'receitas_update' pk=receita.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                            <a href="{% url 'receitas_delete' pk=receita.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                            <a href="{% url 'receitas_create' %}" class="btn btn-warning btn-sm">Nova Receita</a>
+                        </td>                                                
+                    </tr>   
+            {% endfor %}
+          </tbody>
+      </table> 
+    </div>
+    {% else %} 
+      <p>Não ha receitas cadastrados!</p>
+    {% endif %}
+
+    <a href="{% url 'receitas_create' %}" class="btn btn-warning btn-sm">Nova Receitas</a>    
+{% endblock content %}

@@ -1,2 +1,10 @@
 
 .idea/
+
+financas/__pycache__/
+
+financas/migrations/__pycache__/
+
+setup/__pycache__/
+
+db.sqlite3
