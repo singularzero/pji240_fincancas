@@ -1,6 +1,15 @@
-from django.contrib import admin
-from django.urls import path
 
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('financas.urls')),  # Inclui as URLs do aplicativo financas
+]
+
+
+
+"""
 from financas.views import (
     ReceitasListView,
     ReceitasCreateView,
@@ -15,10 +24,8 @@ from financas.views import (
     CategoriaUpdateView,
     CategoriaDeleteView,
 )
-
-
-urlpatterns = [
-    path("admin/", admin.site.urls),
+"""
+"""
     path(
         "categoria/",
         CategoriaListView.as_view(),
@@ -79,4 +86,6 @@ urlpatterns = [
         ReceitasDeleteView.as_view(),
         name="receitas_delete",
     ),
-]
+
+"""
+

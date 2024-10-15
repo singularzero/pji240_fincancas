@@ -1,19 +1,13 @@
 from django.db import models
 
 # Create your models here.
-
-
 class Categoria(models.Model):
-    idCategoria = models.BigAutoField(
-        auto_created=True, primary_key=True, serialize=False, verbose_name="idCategoria"
-    )
+    id = models.AutoField( auto_created=True, primary_key=True, serialize=False)
     nome = models.CharField(max_length=50, null=False, blank=False)
 
 
 class Gastos(models.Model):
-    idGastos = models.BigAutoField(
-        auto_created=True, primary_key=True, serialize=False, verbose_name="idGastos"
-    )
+    id = models.AutoField( auto_created=True, primary_key=True, serialize=False)
     categoria = models.CharField(max_length=50, null=False, blank=False)
     retirado_em = models.DateField(
         auto_now_add=False, null=False, blank=False, editable=True
@@ -22,9 +16,7 @@ class Gastos(models.Model):
 
 
 class Receitas(models.Model):
-    idReceitas = models.BigAutoField(
-        auto_created=True, primary_key=True, serialize=False, verbose_name="idReceitas"
-    )
+    id = models.AutoField( auto_created=True, primary_key=True, serialize=False)
     categoria = models.CharField(max_length=50, null=False, blank=False)
     adicionado_em = models.DateField(
         auto_now_add=False, null=False, blank=False, editable=True
