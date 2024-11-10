@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block page_title %}Página Inicial{% endblock page_title %}
+
+{% block content %}
+    <div class="jumbotron text-center mt-4">
+        <h1>Bem-vindo ao PEFinanças</h1>    
+        <h2>Gerencie suas finanças de forma prática e eficiente.</h2>
+        <h3>Utitilize o menu acima para navegar entre categorias, gastos e receitas.</h3>
+       
+        <!-- Adicionando a imagem -->
+        <img src="{% static 'images/financas.png' %}" alt="Imagem Finanças" class="img-fluid mt-3" style="max-width: 100%;">
+    </div>
+{% endblock content %}

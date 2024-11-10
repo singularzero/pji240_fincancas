@@ -8,3 +8,7 @@ financas/migrations/__pycache__/
 setup/__pycache__/
 
 db.sqlite3
+
+dashboard/__pycache__/
+
+setup/.env

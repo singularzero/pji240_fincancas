@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Gráficos de Gastos e Receitas 
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4">Gráficos de Gastos e Receitas</h1>
+
+        <div class="mt-4">
+            <h2>Gastos - Gráfico de Pizza</h2>
+            <!-- Exibe o gráfico de pizza de gastos -->
+            {{ grafico_gastos_pizza|safe }}
+        </div>
+
+        <div class="mt-4">
+            <h2>Receitas - Gráfico de Pizza</h2>
+            <!-- Exibe o gráfico de pizza de receitas -->
+            {{ grafico_receitas_pizza|safe }}
+        </div>
+
+        <div class="mt-4">
+            <h2>Gastos - Gráfico de Barra</h2>
+            <!-- Exibe o gráfico de barras de gastos -->
+            {{ grafico_gastos_bar|safe }}
+        </div>
+
+        <div class="mt-4">
+            <h2>Receitas - Gráfico de Barra</h2>
+            <!-- Exibe o gráfico de barras de receitas -->
+            {{ grafico_receitas_bar|safe }}
+        </div>
+    </div>
+{% endblock content %}

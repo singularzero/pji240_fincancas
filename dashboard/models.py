@@ -1,14 +1,13 @@
 from django.db import models
 
 # Create your models here.
-
-
 class Categoria(models.Model):
     idCategoria = models.BigAutoField(
         auto_created=True, primary_key=True, serialize=False, verbose_name="idCategoria"
     )
     nome = models.CharField(max_length=50, null=False, blank=False)
-
+    def __str__(self):
+        return self.nome
 
 class Gastos(models.Model):
     idGastos = models.BigAutoField(
@@ -19,7 +18,8 @@ class Gastos(models.Model):
         auto_now_add=False, null=False, blank=False, editable=True
     )
     valor = models.DecimalField(max_digits=9, decimal_places=2, null=False, blank=False)
-
+    def __str__(self):
+        return f"{self.categoria} - {self.valor}"
 
 class Receitas(models.Model):
     idReceitas = models.BigAutoField(
@@ -30,3 +30,5 @@ class Receitas(models.Model):
         auto_now_add=False, null=False, blank=False, editable=True
     )
     valor = models.DecimalField(max_digits=9, decimal_places=2, null=False, blank=False)
+    def __str__(self):
+        return f"{self.categoria} - {self.valor}"

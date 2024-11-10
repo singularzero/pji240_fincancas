@@ -1,16 +1,13 @@
-
+from django.contrib import admin
+from django.urls import path
+from django.views.generic import TemplateView
+from financas.views import grafico_view
+from financas import views
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('financas.urls')),  # Inclui as URLs do aplicativo financas
-]
 
-
-
-"""
-from financas.views import (
+from financas.views import (    
     ReceitasListView,
     ReceitasCreateView,
     ReceitasUpdateView,
@@ -24,13 +21,16 @@ from financas.views import (
     CategoriaUpdateView,
     CategoriaDeleteView,
 )
-"""
-"""
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("grafico/", views.grafico_view, name="grafico"),  
     path(
         "categoria/",
         CategoriaListView.as_view(),
         name="categoria_list",
     ),
+    path("index/", views.index_view, name="index"),
     path(
         "categoria/create/",
         CategoriaCreateView.as_view(),
@@ -86,6 +86,4 @@ from financas.views import (
         ReceitasDeleteView.as_view(),
         name="receitas_delete",
     ),
-
-"""
-
+]

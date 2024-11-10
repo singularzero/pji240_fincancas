@@ -1,70 +1,53 @@
 from django.shortcuts import render
-from rest_framework.parsers import JSONParser
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
-
-from financas.models import Categoria, Gastos, Receitas
-from financas.serializers import CategoriaSerializer, GastoSerializer, ReceitaSerializer
-
-# Create your views here.
-@csrf_exempt
-def categoriaApi(request, id=None):
-    if request.method == 'GET':
-        try:
-            if id is not None:
-                # Retorna a categoria com o ID fornecido
-                categoria = Categoria.objects.get(id=id)
-                return JsonResponse({'id': categoria.id, 'nome': categoria.nome})
-            else:
-                # Retorna todas as categorias
-                categorias = Categoria.objects.all()
-                categorias_serializer = CategoriaSerializer(categorias, many=True)
-                return JsonResponse(categorias_serializer.data, safe=False)
-                # categorias_serializer = list(Categoria.objects.values())
-                return JsonResponse(categorias, safe=False)
-        except ObjectDoesNotExist:
-            return JsonResponse({"error": "Categoria não encontrada."}, status=404)
-    elif request.method == 'POST':
-        categoria_data = JSONParser().parse(request)
-        categoria_serializer = CategoriaSerializer(data=categoria_data)
-        if categoria_serializer.is_valid():
-            categoria_serializer.save()
-            return JsonResponse({"message":"CADASTRO DE CATEGORIA REALIZADO COM SUCESSO"}, status=201)
-        return JsonResponse(categoria_serializer.errors, status=400)
-
-    elif request.method == 'PUT':
-        categoria_data = JSONParser().parse(request)
-        try:            
-            categoria = Categoria.objects.get(id=categoria_data.get('id'))
-            categoria_serializer = CategoriaSerializer(categoria,data=categoria_data)
-            if categoria_serializer.is_valid():
-                categoria_serializer.save()
-                return JsonResponse({"message": "Cadastro de categoria atualizado com sucesso."}, status=200)
-        except ObjectDoesNotExist:
-            return JsonResponse({"error": "Categoria não encontrada para atualização."}, status=404)
-    
-    elif request.method == 'DELETE':
-        try:
-            categoria = Categoria.objects.get(id=id)
-            categoria.delete()
-            return JsonResponse({"message": "Categoria deletada com sucesso."}, status=204)
-        except ObjectDoesNotExist:
-            return JsonResponse({"error": "Categoria não encontrada para exclusão."}, status=404)               
-        except Exception as e:
-            return JsonResponse({"error": f"Erro interno do servidor: {str(e)}"}, status=500)          
-    else:
-        return JsonResponse({"error": "Método não permitido."}, status=405)
-    
-
-
-"""
+from django.db.models import Sum
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .models import Gastos, Receitas
+import plotly.express as px
+from plotly.offline import plot
+import plotly.io as pio
+from .models import Gastos, Receitas, Categoria
 from django.urls import reverse_lazy
-from .models import Categoria, Gastos, Receitas
+
+def grafico_view(request):
+    # Obter dados para o gráfico de pizza de gastos
+    gastos_data = Gastos.objects.values('categoria').annotate(total=Sum('valor'))
+    labels_gastos = [item['categoria'] for item in gastos_data]
+    valores_gastos = [float(item['total']) for item in gastos_data]
+    fig_gastos_pizza = px.pie(values=valores_gastos, names=labels_gastos, title="Distribuição de Gastos")
+
+    # Obter dados para o gráfico de pizza de receitas
+    receitas_data = Receitas.objects.values('categoria').annotate(total=Sum('valor'))
+    labels_receitas = [item['categoria'] for item in receitas_data]
+    valores_receitas = [float(item['total']) for item in receitas_data]
+    fig_receitas_pizza = px.pie(values=valores_receitas, names=labels_receitas, title="Distribuição de Receitas")
+
+    # Obter dados para o gráfico de barras de gastos
+    fig_gastos_bar = px.bar(x=labels_gastos, y=valores_gastos, title="Gastos por Categoria", labels={'x': 'Categoria', 'y': 'Total Gasto'})
+    
+    # Obter dados para o gráfico de barras de receitas
+    fig_receitas_bar = px.bar(x=labels_receitas, y=valores_receitas, title="Receitas por Categoria", labels={'x': 'Categoria', 'y': 'Total Receita'})
+
+    # Converter os gráficos para HTML
+    grafico_gastos_pizza_html = pio.to_html(fig_gastos_pizza, full_html=False)
+    grafico_receitas_pizza_html = pio.to_html(fig_receitas_pizza, full_html=False)
+    grafico_gastos_bar_html = pio.to_html(fig_gastos_bar, full_html=False)
+    grafico_receitas_bar_html = pio.to_html(fig_receitas_bar, full_html=False)
+
+    # Passar os gráficos para o contexto do template
+    context = {
+        'grafico_gastos_pizza': grafico_gastos_pizza_html,
+        'grafico_receitas_pizza': grafico_receitas_pizza_html,
+        'grafico_gastos_bar': grafico_gastos_bar_html,
+        'grafico_receitas_bar': grafico_receitas_bar_html,
+    }
+
+    return render(request, "financas/grafico.html", context)
 
 
-# Create your views here.
+def index_view(request):
+    return render(request, "financas/index.html")
+
+
 class CategoriaListView(ListView):
     model = Categoria
 
@@ -126,5 +109,3 @@ class ReceitasUpdateView(UpdateView):
 class ReceitasDeleteView(DeleteView):
     model = Receitas
     success_url = reverse_lazy("receitas_list")
-
-"""
