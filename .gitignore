@@ -12,3 +12,5 @@ db.sqlite3
 dashboard/__pycache__/
 
 setup/.env
+
+dashboard/migrations/__pycache__/

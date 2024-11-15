@@ -20,6 +20,9 @@ from financas.views import (
     CategoriaCreateView,
     CategoriaUpdateView,
     CategoriaDeleteView,
+    BitcoinListView,
+    BitcoinCreateView,
+    BitcoinDeleteView,
 )
 
 urlpatterns = [
@@ -85,5 +88,20 @@ urlpatterns = [
         "receitas/delete/<int:pk>/",
         ReceitasDeleteView.as_view(),
         name="receitas_delete",
+    ),
+    path(
+        "bitcoin/",
+        BitcoinListView.as_view(),
+        name="bitcoin_list",
+    ),
+    path(
+        "bitcoin/create/",
+        BitcoinCreateView.as_view(),
+        name="bitcoin_create",
+    ),
+    path(
+        "bitcoin/delete/<int:pk>/",
+        BitcoinDeleteView.as_view(),
+        name="bitcoin_delete",
     ),
 ]

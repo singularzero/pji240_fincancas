@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Bitcoin
+{% endblock page_title %}
+
+{% block content %}
+    <h1 align="center">Bitcoin</h1>             
+    {% if bitcoin_list.exists %}
+    <div class="container-fluid flex border border-dark p-3 my-3">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th scope="col">idBitcoin</th>
+                  <th scope="col">Adicionado_em</th>
+                  <th scope="col">Valor</th>
+                  <th scope="col">Ações</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for bitcoin in bitcoin_list %}
+                    <tr>
+                        <th scope="row">{{ bitcoin.pk }}</th>
+                        <td>{{ bitcoin.adicionado_em }}</td>
+                        <td>{{ bitcoin.valor }}</td>
+                        <td>{{ bitcoin.valor_brl }}</td>
+                        <td>
+                            <a href="{% url 'bitcoin_delete' pk=bitcoin.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>   
+            {% endfor %}
+          </tbody>
+      </table> 
+    </div>
+    {% else %} 
+      <p>Não ha Bitcoin cadastrado!</p>
+    {% endif %}
+
+    <a href="{% url 'bitcoin_create' %}" class="btn btn-warning btn-sm">Nova entrada de Bitcoin</a>    
+{% endblock content %}

@@ -30,3 +30,14 @@ class Receitas(models.Model):
         auto_now_add=False, null=False, blank=False, editable=True
     )
     valor = models.DecimalField(max_digits=9, decimal_places=2, null=False, blank=False)
+
+class Bitcoin(models.Model):
+    idReceitas = models.BigAutoField(
+        auto_created=True, primary_key=True, serialize=False, verbose_name="idBitcoin"
+    )
+    adicionado_em = models.DateField(
+        auto_now_add=False, null=False, blank=False, editable=True
+    )
+    valor = models.DecimalField(max_digits=20, decimal_places=15, null=False, blank=False)
+    valor_brl = models.DecimalField(max_digits=20, decimal_places=2, null=False, blank=False)
+    

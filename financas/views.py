@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Gastos, Receitas
+from .models import Gastos, Receitas, Bitcoin
 import plotly.express as px
 from plotly.offline import plot
 import plotly.io as pio
@@ -109,3 +109,23 @@ class ReceitasUpdateView(UpdateView):
 class ReceitasDeleteView(DeleteView):
     model = Receitas
     success_url = reverse_lazy("receitas_list")
+
+class BitcoinListView(ListView):
+    model = Bitcoin
+
+
+class BitcoinCreateView(CreateView):
+    model = Bitcoin
+    fields = ["adicionado_em", "valor"]
+    success_url = reverse_lazy("bitcoin_list")
+
+
+class BitcoinUpdateView(UpdateView):
+    model = Bitcoin
+    fields = ["adicionado_em", "valor"]
+    success_url = reverse_lazy("bitcoin_list")
+
+
+class BitcoinDeleteView(DeleteView):
+    model = Bitcoin
+    success_url = reverse_lazy("bitcoin_list")
