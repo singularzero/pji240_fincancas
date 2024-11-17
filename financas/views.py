@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.db.models import Sum
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -7,7 +9,7 @@ from plotly.offline import plot
 import plotly.io as pio
 from .models import Gastos, Receitas, Categoria
 from django.urls import reverse_lazy
-
+@login_required
 def grafico_view(request):
     # Obter dados para o gráfico de pizza de gastos
     gastos_data = Gastos.objects.values('categoria').annotate(total=Sum('valor'))
@@ -43,89 +45,89 @@ def grafico_view(request):
 
     return render(request, "financas/grafico.html", context)
 
-
+@login_required
 def index_view(request):
     return render(request, "financas/index.html")
 
 
-class CategoriaListView(ListView):
+class CategoriaListView(LoginRequiredMixin, ListView):
     model = Categoria
 
 
-class CategoriaCreateView(CreateView):
-    model = Categoria
-    fields = ["nome"]
-    success_url = reverse_lazy("categoria_list")
-
-
-class CategoriaUpdateView(UpdateView):
+class CategoriaCreateView(LoginRequiredMixin, CreateView):
     model = Categoria
     fields = ["nome"]
     success_url = reverse_lazy("categoria_list")
 
 
-class CategoriaDeleteView(DeleteView):
+class CategoriaUpdateView(LoginRequiredMixin, UpdateView):
+    model = Categoria
+    fields = ["nome"]
+    success_url = reverse_lazy("categoria_list")
+
+
+class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
     model = Categoria
     success_url = reverse_lazy("categoria_list")
 
 
-class GastosListView(ListView):
+class GastosListView(LoginRequiredMixin, ListView):
     model = Gastos
 
 
-class GastosCreateView(CreateView):
-    model = Gastos
-    fields = ["categoria", "retirado_em", "valor"]
-    success_url = reverse_lazy("gastos_list")
-
-
-class GastosUpdateView(UpdateView):
+class GastosCreateView(LoginRequiredMixin, CreateView):
     model = Gastos
     fields = ["categoria", "retirado_em", "valor"]
     success_url = reverse_lazy("gastos_list")
 
 
-class GastosDeleteView(DeleteView):
+class GastosUpdateView(LoginRequiredMixin, UpdateView):
+    model = Gastos
+    fields = ["categoria", "retirado_em", "valor"]
+    success_url = reverse_lazy("gastos_list")
+
+
+class GastosDeleteView(LoginRequiredMixin, DeleteView):
     model = Gastos
     success_url = reverse_lazy("gastos_list")
 
 
-class ReceitasListView(ListView):
+class ReceitasListView(LoginRequiredMixin, ListView):
     model = Receitas
 
 
-class ReceitasCreateView(CreateView):
-    model = Receitas
-    fields = ["categoria", "adicionado_em", "valor"]
-    success_url = reverse_lazy("receitas_list")
-
-
-class ReceitasUpdateView(UpdateView):
+class ReceitasCreateView(LoginRequiredMixin, CreateView):
     model = Receitas
     fields = ["categoria", "adicionado_em", "valor"]
     success_url = reverse_lazy("receitas_list")
 
 
-class ReceitasDeleteView(DeleteView):
+class ReceitasUpdateView(LoginRequiredMixin, UpdateView):
+    model = Receitas
+    fields = ["categoria", "adicionado_em", "valor"]
+    success_url = reverse_lazy("receitas_list")
+
+
+class ReceitasDeleteView(LoginRequiredMixin, DeleteView):
     model = Receitas
     success_url = reverse_lazy("receitas_list")
 
-class BitcoinListView(ListView):
+class BitcoinListView(LoginRequiredMixin, ListView):
     model = Bitcoin
 
 
-class BitcoinCreateView(CreateView):
-    model = Bitcoin
-    fields = ["adicionado_em", "valor"]
-    success_url = reverse_lazy("bitcoin_list")
-
-
-class BitcoinUpdateView(UpdateView):
+class BitcoinCreateView(LoginRequiredMixin, CreateView):
     model = Bitcoin
     fields = ["adicionado_em", "valor"]
     success_url = reverse_lazy("bitcoin_list")
 
 
-class BitcoinDeleteView(DeleteView):
+class BitcoinUpdateView(LoginRequiredMixin, UpdateView):
+    model = Bitcoin
+    fields = ["adicionado_em", "valor"]
+    success_url = reverse_lazy("bitcoin_list")
+
+
+class BitcoinDeleteView(LoginRequiredMixin, DeleteView):
     model = Bitcoin
     success_url = reverse_lazy("bitcoin_list")

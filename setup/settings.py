@@ -18,7 +18,7 @@ SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = config("DEBUG", cast=bool, default=False)
+DEBUG = False
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
@@ -26,7 +26,6 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -53,7 +52,7 @@ ROOT_URLCONF = "setup.urls"
 TEMPLATES = [
    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'financas/templates')],  # Ajuste conforme necessário
+        'DIRS': [os.path.join(BASE_DIR, 'financas/templates'), os.path.join(BASE_DIR, 'templates')],  # Ajuste conforme necessário
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +123,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_URL = "/accounts/login/"
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/accounts/login/?logout=true&next=/'
+
+CSRF_TRUSTED_ORIGINS = ["https://projeto.fmeyers.net", "http://projeto.fmeyers.net"]

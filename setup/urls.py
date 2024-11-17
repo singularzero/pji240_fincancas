@@ -26,7 +26,7 @@ from financas.views import (
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("grafico/", views.grafico_view, name="grafico"),  
     path(
         "categoria/",
@@ -104,4 +104,5 @@ urlpatterns = [
         BitcoinDeleteView.as_view(),
         name="bitcoin_delete",
     ),
+    path("", views.index_view, name="index"),
 ]

@@ -1,0 +1,25 @@
+{% extends "auth_base.html" %}
+{% block content %}
+<div>
+    <h1>PIFinanças</h1>
+    <form method="post" action="{% url 'login' %}" class="d-flex justify-content-center">
+        {% csrf_token %}
+        <table>
+          <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+          </tr>
+        </table>
+        <input type="submit" value="Entrar">
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+    {% if request.GET.logout %}
+        <div class="alert alert-warning mt-3 mb-0" role="alert">Você saiu de sua conta</div>
+    {% endif %}
+
+</div>
+{% endblock %}

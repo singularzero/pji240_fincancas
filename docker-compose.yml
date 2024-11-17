@@ -1,0 +1,10 @@
+services:
+    web:
+        build:
+            context: /home/ubuntu/deploy/PEFinancas/
+            args:
+                PORTA: 80
+        ports:
+            - "80:80"
+        volumes:
+            - /home/ubuntu/deploy/PEFinancas:/app

@@ -1,9 +1,10 @@
 import plotly.express as px
 import plotly.graph_objs as go
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Categoria, Gastos, Receitas 
 
-
+@login_required
 def grafico_view(request):
     # Obtendo os dados de Gastos, Receitas e Categorias
     categorias = Categoria.objects.all()
